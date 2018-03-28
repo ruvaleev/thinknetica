@@ -22,4 +22,18 @@ feature 'Signing in', %q{
 
     expect(page).to have_content 'Invalid Email or password'
   end
+
+  scenario "User uses the button 'Sign in'" do
+    visit root_path
+    click_on 'Sign_in'
+    expect(page).to have_content 'Log in'
+  end
+
+  scenario "Authentificated user try to sign out" do
+    sign_in(user)
+    click_on 'Sign_out'
+    expect(page).to have_content 'Signed out successfully.'
+  end
+
+
 end
