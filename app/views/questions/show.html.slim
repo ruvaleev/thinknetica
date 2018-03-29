@@ -1,0 +1,13 @@
+= @question.title
+= @question.body
+
+
+= render '/answers/new'
+
+#answers
+table
+	- if @answers.length > 0
+		- @answers.each do |answer|
+			tr 
+				td.author #{answer.user.email} answers
+				td.answer = answer.body
