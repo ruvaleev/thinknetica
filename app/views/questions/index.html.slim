@@ -1,0 +1,14 @@
+p= link_to 'Ask question', new_question_path
+h1 Questions list
+table
+	- unless @questions.empty?
+		- @questions.each do |q|
+			tr
+				td.title = q.title
+				td.body = q.body
+				td.delete 
+					- if user_signed_in? && current_user.id == q.user_id
+						= link_to 'Delete', question_path(q.id), :method => :delete
+	- else
+		tr
+			td 'There is no questions yet. Ask first one!'
