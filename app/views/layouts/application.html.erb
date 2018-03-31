@@ -10,9 +10,10 @@
   <body>
     <% if user_signed_in? %>
       <span>Hello, <%= current_user.email %></span>
-      <%= link_to 'Sign_out', destroy_user_session_path, :method => :delete %>
+      <%= link_to 'Sign_out', destroy_user_session_path, :method => :delete %>Sign_out</a>
     <% else %>
-      <%= link_to 'Sign_in', new_user_session_path %>
+      <%= link_to 'Sign_in', new_user_session_path %>      
+      <%= link_to 'Registration', new_user_registration_path %>
     <% end %>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>

@@ -4,9 +4,7 @@ Rails.application.routes.draw do
   resources :questions do
   	resources :answers
   end
-	# было 
-  # root to: "home#index"
-  # стало (заработало)
+
   root to: "questions#index"
 
 end
