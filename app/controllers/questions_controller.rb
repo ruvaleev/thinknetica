@@ -19,14 +19,14 @@ class QuestionsController < ApplicationController
   end
 
   def create
-  	@question = Question.new(question_params)
+    @question = Question.new(question_params)
     @question.user = current_user
-  	if @question.save
+    if @question.save
       flash[:notice] = 'Your question successfully created.'
-  	  redirect_to @question
-  	else
-  		render :new
-  	end
+      redirect_to @question
+    else
+      render :new
+    end
   end
 
   def update

@@ -2,13 +2,13 @@ p= link_to 'Ask question', new_question_path
 h1 Questions list
 table
   - unless @questions.empty?
-		- @questions.each do |q|
-			tr
-				td.title = link_to "#{q.title}", question_path(q.id)
-				td.body = q.body
-				td.delete 
-					- if current_user.present? && current_user.author_of(q)
-						= link_to 'Delete', question_path(q.id), method: :delete
+  	- @questions.each do |q|
+  		tr
+  			td.title = link_to "#{q.title}", question_path(q.id)
+  			td.body = q.body
+  			td.delete
+  			  - if current_user.present? && current_user.author_of(q)
+  			    = link_to 'Delete', question_path(q.id), method: :delete
   - else
-		tr
-			td 'There is no questions yet. Ask first one!'
+    tr
+      td 'There is no questions yet. Ask first one!'

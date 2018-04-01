@@ -5,10 +5,10 @@
 
 #answers
 table
-	- @answers.each do |answer|
-		tr 
-			td.author #{answer.user.email} answers
-			td.answer = answer.body
-			td.delete 
-			  - if current_user.present? && current_user.author_of(answer)
-			    = link_to 'Delete', question_answer_path(question_id: @question.id, id: answer.id), method: :delete
+  - @answers.each do |answer|
+    tr
+      td.author #{answer.user.email} answers
+      td.answer = answer.body
+      td.delete
+        - if current_user.present? && current_user.author_of(answer)
+          = link_to 'Delete', question_answer_path(question_id: @question.id, id: answer.id), method: :delete
