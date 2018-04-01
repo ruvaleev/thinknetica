@@ -1,11 +1,14 @@
 class QuestionsController < ApplicationController
-  before_action :load_question, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [ :show, :index ]
+  before_action :load_question, only: [ :show, :edit, :update, :destroy ]
+  
 
   def index
-  	@questions = Question.all
+    @questions = Question.all
   end
 
   def show
+    @answers = Answer.where(question_id: @question.id)
   end
 
   def new
@@ -17,8 +20,9 @@ class QuestionsController < ApplicationController
 
   def create
   	@question = Question.new(question_params)
-  	
+    @question.user = current_user
   	if @question.save
+      flash[:notice] = 'Your question successfully created.'
   	  redirect_to @question
   	else
   		render :new
@@ -36,8 +40,13 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-  	@question.destroy
-  	redirect_to questions_path
+    if @question.user == current_user
+    	@question.destroy
+      flash[:notice] = 'Your question successfully deleted.'
+    else
+      flash[:notice] = 'You can destroy only your own questions!'
+    end
+    redirect_to questions_path
   end
 
   private
