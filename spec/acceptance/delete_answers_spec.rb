@@ -24,4 +24,13 @@ feature 'Show delete button near answers', %q{
     expect(page).to have_text('Delete') 
   end
 
+  scenario 'User uses delete button' do      
+    sign_in(user)
+    answer
+    visit question_path(question)
+    click_on 'Delete'
+    visit question_path(question)
+    expect(page).to have_no_text(answer.body) 
+  end
+
 end

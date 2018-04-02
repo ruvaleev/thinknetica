@@ -11,17 +11,27 @@ feature 'Show questions list', %q{
   given(:question) { create(:question, user: user_own) }
   given(:another_question) { create(:question) }
 
-  scenario 'User see the all questions list as a table' do      
+  scenario "User can't see the delete button near the other users questions" do 
+    sign_in(another_user)
     question
-    another_question
     visit questions_path
-    expect(page).to have_text(question.body)
-    expect(page).to have_text(another_question.body) 
+    expect(page).to have_no_text('Delete')
   end
 
-  scenario 'User see the title "Questions list" on the page' do      
+  scenario 'User see the delete button near his own question' do      
+    sign_in(user_own)
+    question
     visit questions_path
-    expect(page).to have_text('Questions list') 
+    expect(page).to have_text('Delete') 
+  end
+
+  scenario 'User push the delete button and question is deleting' do      
+    sign_in(user_own)
+    question
+    visit questions_path
+    click_on 'Delete'
+    visit questions_path
+    expect(page).to have_no_text(question.body) 
   end
 
 end
