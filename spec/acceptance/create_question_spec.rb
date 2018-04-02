@@ -37,7 +37,9 @@ feature 'Create question', %q{
     click_on 'Ask question'
     click_on 'Create'
     
-    expect(page).to have_content 'prohibited this question from being saved'
+    expect(page).to have_content 'prohibited this object from being saved'
+    expect(page).to have_content "Title can't be blank"
+    expect(page).to have_content "Body can't be blank"
   end  
 	
 end

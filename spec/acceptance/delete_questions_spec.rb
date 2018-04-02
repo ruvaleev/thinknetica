@@ -9,7 +9,7 @@ feature 'Show questions list', %q{
   given(:user_own) { create(:user) }
   given(:another_user) { create(:user) }
   given(:question) { create(:question, user: user_own) }
-  given(:another_question) { create(:another_question) }
+  given(:another_question) { create(:question) }
 
   scenario 'User see the all questions list as a table' do      
     question

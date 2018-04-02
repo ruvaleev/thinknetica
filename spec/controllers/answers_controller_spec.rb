@@ -5,13 +5,23 @@ RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
   let(:answer) { create(:answer, question: question, user: user) }
-  let(:another_answer) { create(:answer, question: question) }
+  let(:another_answer) { create(:another_answer, question: question) }
 
   describe "POST #create" do
     sign_in_user
     context "create with valid attributes" do
       it "saves the new answer into the database" do        
       expect { post :create, params: { question_id: question,answer: attributes_for(:answer) } }.to change(Answer, :count).by(1)
+      end
+
+      it "saves the new answer with an attributes of user" do
+        post :create, params: { question_id: question,answer: attributes_for(:answer) }
+        expect(answer.user_id).to eq(user.id)
+      end
+
+      it "saves the new answer with an attributes of question" do
+        post :create, params: { question_id: question,answer: attributes_for(:answer) }
+        expect(answer.question_id).to eq(question.id)
       end
 
       it "redirects to question path" do
@@ -37,7 +47,7 @@ RSpec.describe AnswersController, type: :controller do
     sign_in_user
     it "deletes other user's answer" do
       another_answer
-      expect { delete :destroy, params: { question_id: question, id: another_answer } }.to change(Answer, :count).by(0)
+      expect { delete :destroy, params: { question_id: question, id: another_answer } }.to_not change(Answer, :count)
     end
 
     it 'deletes own answer' do

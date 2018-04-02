@@ -1,13 +1,12 @@
 require 'rails_helper'
 
-feature 'Show question and create answer', %q{
+feature 'Create answer', %q{
 	In order to see question
 	As an authentificated user
 	I wanted to give answer
 } do
   given(:user) { create(:user) }
-  given(:question) { create(:question, user: user) }
-  given(:answer) { create(:answer, question: question, user: user) }
+  given(:question) { create(:question) }
 
   scenario 'Authentificated user creates answer' do
     sign_in(user)
@@ -22,7 +21,7 @@ feature 'Show question and create answer', %q{
 	  visit question_path(question)
     click_on 'Answer'
 
-    expect(page).to have_content 'You have to log in to create Answer'
+    expect(page).to have_content 'You need to sign in or sign up before continuing'
   end
 
   scenario 'The validation errors are shows when trying create invalid answer' do

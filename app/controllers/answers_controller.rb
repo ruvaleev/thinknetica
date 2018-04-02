@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
   before_action :load_question
   before_action :load_answer, only: [ :destroy ]
 
@@ -11,13 +11,13 @@ class AnswersController < ApplicationController
       flash[:notice] = 'Your answer successfully created.'
       redirect_to @question
     else
-      render :new
+      render 'questions/show'
     end
     
   end
 
   def destroy
-    if @answer.user == current_user
+    if current_user.author_of?(@answer)
       @answer.destroy
       flash[:notice] = 'Your answer successfully deleted.'
     else
