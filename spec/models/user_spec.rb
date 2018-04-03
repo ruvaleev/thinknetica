@@ -9,9 +9,12 @@ RSpec.describe User do
   let(:answer) { create(:answer, question: question, user: user) }
   let(:another_answer) { create(:answer, question: question) }
 
-  it "should to indicate the users authorship" do
-    user.author_of?(another_answer).should be false
-    user.author_of?(answer).should be true
-    user.author_of?(question).should be true
+  it 'user authority on another_answer' do
+    expect( user.author_of?(another_answer) ).to be_falsey 
   end
+  
+  it 'user authority on own answer' do
+    expect( user.author_of?(answer) ).to be_truthy 
+  end
+
 end
