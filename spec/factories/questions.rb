@@ -1,7 +1,8 @@
 FactoryBot.define do
   factory :question do
-    user
-    title "MyString"
+
+  	user
+  	title "MyString"
     body "MyText"
   end
 
@@ -12,8 +13,9 @@ FactoryBot.define do
   end
 
   factory :invalid_question, class: "Question" do
-    user
-    title nil
-    body nil
+  	user
+  	title nil
+  	body nil
   end
+
 end

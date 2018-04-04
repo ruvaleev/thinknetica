@@ -10,4 +10,5 @@ class User < ApplicationRecord
     self.id == resource.user_id
   end
 
+
 end
