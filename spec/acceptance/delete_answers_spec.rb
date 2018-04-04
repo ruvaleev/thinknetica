@@ -22,7 +22,6 @@ feature 'Show delete button near answers', %q{
     answer
     visit question_path(question)
     click_on 'Delete'
-    visit question_path(question)
     expect(page).to have_no_text(answer.body) 
   end
 

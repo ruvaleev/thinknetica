@@ -20,7 +20,6 @@ feature 'Show questions list', %q{
     sign_in(user_own)
     visit questions_path
     click_on 'Delete'
-    visit questions_path
     expect(page).to have_no_text(question.body) 
   end
 
