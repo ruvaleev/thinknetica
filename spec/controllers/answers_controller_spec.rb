@@ -11,33 +11,33 @@ RSpec.describe AnswersController, type: :controller do
     sign_in_user
     context "create with valid attributes" do
       it "saves the new answer into the database" do        
-      expect { post :create, params: { question_id: question,answer: attributes_for(:answer) } }.to change(Answer, :count).by(1)
+      expect { post :create, params: { question_id: question,answer: attributes_for(:answer), format: :js } }.to change(question.answers, :count).by(1)
       end
 
       it "saves the new answer with an attributes of user" do
-        post :create, params: { question_id: question,answer: attributes_for(:answer) }
+        post :create, params: { question_id: question,answer: attributes_for(:answer), format: :js }
         expect(answer.user_id).to eq(user.id)
       end
 
       it "saves the new answer with an attributes of question" do
-        post :create, params: { question_id: question,answer: attributes_for(:answer) }
+        post :create, params: { question_id: question,answer: attributes_for(:answer), format: :js }
         expect(answer.question_id).to eq(question.id)
       end
 
       it "redirects to question path" do
-        post :create, params: { question_id: question, answer: attributes_for(:answer) }
+        post :create, params: { question_id: question, answer: attributes_for(:answer), format: :js }
         redirect_to question_path(assigns(:question))
       end
     end
 
     context "create with invalid attributes" do
-      let(:invalid_answer) { build(:invalid_answer, question: question, user_id: user.id) }
+      let(:invalid_answer) { build(:invalid_answer, question: question, user_id: user.id, format: :js) }
       it "doesn't save a new answer into the database" do
-        expect { post :create, params: { question_id: question, answer: attributes_for(:invalid_answer) } }.to_not change(Answer, :count)
+        expect { post :create, params: { question_id: question, answer: attributes_for(:invalid_answer), format: :js } }.to_not change(Answer, :count)
       end
 
       it "re-renders new view" do
-        post :create, params: { question_id: question, answer: attributes_for(:invalid_answer) }
+        post :create, params: { question_id: question, answer: attributes_for(:invalid_answer), format: :js }
         redirect_to question_path(assigns(:question))
       end
     end

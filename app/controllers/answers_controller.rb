@@ -9,9 +9,8 @@ class AnswersController < ApplicationController
     flash[:notice] = 'You have to log in to create Answer' unless current_user.present?
     if @answer.save
       flash[:notice] = 'Your answer successfully created.'
-      redirect_to @question
     else
-      render 'questions/show'
+      render 'error'
     end
     
   end
@@ -29,7 +28,7 @@ class AnswersController < ApplicationController
 private
 
   def load_question
-  	@question = Question.find(params[:question_id])
+    @question = Question.find(params[:question_id])
   end
 
   def load_answer
