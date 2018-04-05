@@ -1,1 +1,9 @@
-p You've answered "#{@answer.body}"
+table class="last_answer"
+  tr
+    - if answer.persisted?
+      td.author User #{answer.user_id} answers
+      td.answer = answer.body
+      td.delete
+        - if current_user.present? && current_user.author_of?(answer)
+          = link_to 'Delete', question_answer_path(question_id: @question, id: answer), method: :delete
+      td.answer_id #{answer.id}

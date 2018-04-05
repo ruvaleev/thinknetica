@@ -3,10 +3,9 @@
 = render 'answers/new'
 .errors
   = render 'shared/errors', object: @answer
-.our_new_answer
 .answers
   - if @question.answers.empty?
     p
       td 'There is no answers yet. Give the first one!'
   - else
-    = render 'answers'
+    = render @question.answers
