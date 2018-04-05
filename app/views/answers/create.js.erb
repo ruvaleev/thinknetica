@@ -1,3 +1,6 @@
-$('.answers').html('<%= j render 'questions/answers' %>');
+$('.our_new_answer').hide();
+$('.our_new_answer').html('<%= j render @answer %>');
+$('.our_new_answer').fadeIn();
 $('#answer_body').val('');
 $('#error_explanation').fadeOut();
+$('.answers').html('<%= j render 'questions/answers' %>');
