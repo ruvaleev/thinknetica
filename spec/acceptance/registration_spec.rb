@@ -1,5 +1,4 @@
-require 'rails_helper'
-require 'spec_helper'
+require_relative 'acceptance_helper'
 
 feature 'registration', %q{
   In order to be able ask questions
