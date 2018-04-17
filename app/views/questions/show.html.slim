@@ -3,9 +3,14 @@
 = render 'answers/new'
 .errors
   = render 'shared/errors', object: @answer
-.answers
-  - if @question.answers.empty?
-    p
-      td 'There is no answers yet. Give the first one!'
-  - else
+- if @question.answers.empty?
+  p
+    td 'There is no answers yet. Give the first one!'
+- else
+  div id="best"
+    - unless @question.answers.find_by(award: 1).nil?
+      'Лучший ответ:
+      = render @question.answers.find_by(award: 1), best: true
+      '***********
+  .answers
     = render @question.answers
