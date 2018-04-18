@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'Show delete button near answers', %q{
   In order to see question
@@ -17,7 +17,7 @@ feature 'Show delete button near answers', %q{
     expect(page).to have_no_text('Delete')
   end
 
-  scenario 'User uses delete button' do      
+  scenario 'User uses delete button', js: true do      
     sign_in(user)
     answer
     visit question_path(question)

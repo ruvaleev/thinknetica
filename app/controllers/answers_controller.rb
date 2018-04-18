@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_question
-  before_action :load_answer, only: [ :destroy ]
+  before_action :load_answer, except: [ :create ]
 
   def create 
     @answer = @question.answers.new(answer_params)
@@ -9,27 +9,35 @@ class AnswersController < ApplicationController
     flash[:notice] = 'You have to log in to create Answer' unless current_user.present?
     if @answer.save
       flash[:notice] = 'Your answer successfully created.'
-      redirect_to @question
     else
-      render 'questions/show'
+      render 'error'
     end
     
+  end
+
+  def award
+    @former_best_answer = @question.answers.find_by(award: 1) #находим прежний лучший ответ, чтобы показать его во вьюхе, если понадобится
+    @former_best_answer.update(award: 0) if @former_best_answer.present? #прежний лучший ответ делаем обычным
+    @answer.update(award: 1) #делаем выбранный ответ лучшим
+  end
+
+  def update
+    @answer.update(answer_params) if current_user.author_of?(@answer)
   end
 
   def destroy
     if current_user.author_of?(@answer)
       @answer.destroy
-      flash[:notice] = 'Your answer successfully deleted.'
+      @notice = 'Your answer successfully deleted.'
     else
-      flash[:notice] = 'You can delete only your own answer!'
+      @notice = 'You can delete only your own answer!'
     end
-    redirect_to @question
   end
 
 private
 
   def load_question
-  	@question = Question.find(params[:question_id])
+    @question = Question.find(params[:question_id])
   end
 
   def load_answer
