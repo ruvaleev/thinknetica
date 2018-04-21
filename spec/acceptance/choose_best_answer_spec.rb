@@ -18,12 +18,6 @@ feature 'Choose best answer spec', %q{
     expect(page).to_not have_link('It is best!')
   end
 
-  scenario 'js test', js: true do
-    sign_in(user)
-    visit question_path(own_question)
-
-    expect(page).to_not have_errors
-  end
   describe 'Authenticated user trying choose best answer' do
     before { sign_in(user) }
     
@@ -31,7 +25,6 @@ feature 'Choose best answer spec', %q{
       best_answer
       visit question_path(own_question)
       click_on 'It is best!'
-      save_and_open_page
       within '#best' do
         expect(page).to have_content(best_answer.body)
       end

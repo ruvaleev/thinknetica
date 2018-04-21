@@ -47,25 +47,25 @@ RSpec.describe AnswersController, type: :controller do
     sign_in_user
     it "deletes other user's answer" do
       another_answer
-      expect { delete :destroy, params: { question_id: question, id: another_answer } }.to_not change(Answer, :count)
+      expect { delete :destroy, params: { question_id: question, id: another_answer }, format: :js }.to_not change(Answer, :count)
     end
 
     it 'deletes own answer' do
       sign_in(user)
       answer
-      expect { delete :destroy, params: { question_id: question, id: answer } }.to change(Answer, :count).by(-1)
+      expect { delete :destroy, params: { question_id: question, id: answer }, format: :js }.to change(Answer, :count).by(-1)
     end
 
 
     it 'redirect to question' do
-      delete :destroy, params: { question_id: question, id: answer }
+      delete :destroy, params: { question_id: question, id: answer }, format: :js
       redirect_to question_path(assigns(:question))
     end
   end
 
   describe 'PUT #update' do
     sign_in_user
-
+    
     context 'valid attributes' do
       it 'assigns the requested answer to @answer' do 
         patch :update, params: { id: answer, question_id: question, answer: attributes_for(:answer), format: :js }
@@ -73,7 +73,8 @@ RSpec.describe AnswersController, type: :controller do
       end     
 
       it 'changes answer attributes' do
-        patch :update, params: { id: answer, question_id: question, answer: { body: 'new body' }, format: :js }
+        sign_in(user)
+        put :update, params: { id: answer, question_id: question, answer: { body: 'new body' } }, format: :js
         answer.reload
         expect(answer.body).to eq 'new body'
       end

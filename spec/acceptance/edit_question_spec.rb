@@ -19,19 +19,32 @@ feature 'Question editing', %q{
 
   describe 'Authenticated user' 
     before { sign_in(user) }
-    scenario 'try to edit his question', js: true do
-      own_question
-      visit questions_path
-      click_on 'Edit'
-      fill_in 'question_title', with: "Edited question"
-      fill_in 'question_body', with: "I've edit my question"
-      click_on 'Save'
 
-      expect(page).to_not have_content own_question.body
-      expect(page).to_not have_content own_question.title
-      expect(page).to have_content 'Edited question'
-      expect(page).to have_content "I've edit my question"
-    end
+    describe 'try to edit his question'
+    
+      scenario 'and see his editions', js: true do
+        own_question
+        visit questions_path
+        click_on 'Edit'
+        within '.questions' do
+          fill_in 'question[body]', with: "I've edit my question"
+          click_on 'Save'
+
+          expect(page).to have_content "I've edit my question"
+        end
+      end
+
+      scenario 'and dont see his old question', js: true do
+        own_question
+        visit questions_path
+        click_on 'Edit'
+        within '.questions' do
+          fill_in 'question[title]', with: "Edited question"
+          click_on 'Save'
+
+          expect(page).to_not have_content own_question.title
+        end
+      end
 
     scenario "try to edit other user's question" do
       another_question
