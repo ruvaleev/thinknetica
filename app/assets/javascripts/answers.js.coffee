@@ -9,9 +9,5 @@ ready = ->
     answer_id = $(this).data('answerId');
     $('#edit-answer-' + answer_id).fadeIn();
 
-# Скрываем лучший ответ из общего списка ответов
-  data = $('#best .edit-answer-link').data('answerId');
-  $(".answers #tr#{data}").hide();
-
 $(document).ready(ready)
 $(document).on('turbolinks:load', ready)

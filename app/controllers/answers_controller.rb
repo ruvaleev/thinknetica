@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_question
-  before_action :load_answer, except: [ :create ]
+  before_action :load_answer, except: [:create]
 
   def create 
     @answer = @question.answers.new(answer_params)
@@ -16,9 +16,7 @@ class AnswersController < ApplicationController
   end
 
   def award
-    @former_best_answer = @question.answers.find_by(award: 1) #находим прежний лучший ответ, чтобы показать его во вьюхе, если понадобится
-    @former_best_answer.update(award: 0) if @former_best_answer.present? #прежний лучший ответ делаем обычным
-    @answer.update(award: 1) #делаем выбранный ответ лучшим
+    @answer.make_best
   end
 
   def update

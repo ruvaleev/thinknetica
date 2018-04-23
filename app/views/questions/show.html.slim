@@ -7,10 +7,10 @@
   p
     td 'There is no answers yet. Give the first one!'
 - else
-  div id="best"
-    - unless @question.answers.find_by(award: 1).nil?
+  #best
+    - unless @best.nil?
       'Лучший ответ:
-      = render @question.answers.find_by(award: 1), best: true
+      = render @best
       '***********
   .answers
-    = render @question.answers
+    = render @question.not_awarded_answers
