@@ -5,6 +5,6 @@ class Question < ApplicationRecord
   validates :title, :body, presence: true
 
   def not_awarded_answers
-    self.answers - Answer.best(self)
+    answers - Answer.best
   end
 end

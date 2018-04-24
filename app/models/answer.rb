@@ -4,10 +4,13 @@ class Answer < ApplicationRecord
   
   validates :body, presence: true
 
-  scope :best, ->(question) { where(award: true, question_id: question.id) }
+  scope :best, -> { where(award: true) }
 
   def make_best
-    Question.find(self.question_id).answers.update(award: false)
-    self.update(award: true)
+    Answer.transaction do
+      question.answers.update_all(award: false)
+      update(award: true)
+    end
   end
+
 end
