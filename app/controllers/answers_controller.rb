@@ -16,7 +16,7 @@ class AnswersController < ApplicationController
   end
 
   def award
-    @answer.make_best if current_user.author_of?(@answer)
+    @answer.make_best if current_user.author_of?(@question)
   end
 
   def update

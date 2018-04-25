@@ -23,8 +23,9 @@ feature 'Choose best answer spec', %q{
     
     scenario 'for own question', js: true do
       best_answer
+      answer
       visit question_path(own_question)
-      click_on 'It is best!'
+      click_on('It is best!', match: :first)
       within '#best' do
         expect(page).to have_content(best_answer.body)
       end

@@ -8,9 +8,9 @@ feature 'Answer editing', %q{
 
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
-  given(:answer) { create(:answer, question: question, user: user) }
   given(:another_answer) { create(:another_answer, question: question) }
-
+  given(:answer) { create(:answer, question: question, user: user) }
+  
   scenario 'Unauthorized user try to edit answer' do
     visit question_path(question)
 
@@ -19,12 +19,15 @@ feature 'Answer editing', %q{
 
   describe 'Authenticated user' do
     before { sign_in(user) }
+    before(:each, answer: :own) do 
+      answer    
+      visit question_path(question)
+      click_on 'Edit'
+    end
 
     describe 'try to edit his answer'
-      scenario 'and see own edition', js: true do
-        answer
-        visit question_path(question)
-        click_on 'Edit'
+
+      scenario 'and see own edition', answer: :own, js: true do
         within '.answers' do
           fill_in 'answer[body]', with: "I've edit my answer"
           click_on 'Save'
@@ -33,10 +36,7 @@ feature 'Answer editing', %q{
         end
       end
 
-      scenario 'and not see old answer', js: true do
-        answer
-        visit question_path(question)
-        click_on 'Edit'
+      scenario 'and not see old answer', answer: :own, js: true do
         within '.answers' do
           fill_in 'answer[body]', with: "I've edit my answer"
           click_on 'Save'
@@ -45,10 +45,7 @@ feature 'Answer editing', %q{
         end
       end
 
-      scenario 'and not see textarea for editing', js: true do
-        answer
-        visit question_path(question)
-        click_on 'Edit'
+      scenario 'and not see textarea for editing', answer: :own, js: true do
         within '.answers' do
           fill_in 'answer[body]', with: "I've edit my answer"
           click_on 'Save'
@@ -57,12 +54,13 @@ feature 'Answer editing', %q{
         end
       end
 
-    scenario "try to edit other user's question" do
+    scenario "try to edit other user's answer" do
       another_answer
       visit question_path(question)
       within '.answers' do
         expect(page).to_not have_link 'Edit'
       end
     end
+
   end
 end
