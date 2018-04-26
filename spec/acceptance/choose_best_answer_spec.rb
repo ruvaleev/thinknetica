@@ -8,8 +8,8 @@ feature 'Choose best answer spec', %q{
   given(:user) { create(:user) }
   given(:own_question) { create(:question, user: user) }
   given(:another_users_question) { create(:question) }
-  given!(:answer) { create(:answer, question: own_question) }
   given!(:best_answer) { create(:another_answer, question: own_question) }
+  given!(:answer) { create(:answer, question: own_question) }
   given(:answers_for_another_question) { create_list(:answer, 4, question: another_users_question) }
 
   scenario 'Non-authentificated user try to choose best answer' do
