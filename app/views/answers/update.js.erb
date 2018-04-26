@@ -1,11 +1,4 @@
 $('#tr<%= @answer.id %>').hide();
 $('#tr<%= @answer.id %>').html('<%= j render @answer %>');
 $('#tr<%= @answer.id %>').fadeIn();
-
-// $('.edit-answer-link').click(function(e) {
-//   e.preventDefault();
-//   $(this).hide();
-//   answer_id = $(this).data('answerId');
-//   console.log('edit-answer-' + answer_id);
-//   $('#edit-answer-' + answer_id).fadeIn();
-// });
+$('#edit-answer-<%= @answer.id %>').hide();

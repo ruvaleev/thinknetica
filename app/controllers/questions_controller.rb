@@ -8,7 +8,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = @question.answers.new
-    @answers = Answer.where(question_id: @question.id)
+    @best = @question.answers.best.first
   end
 
   def new

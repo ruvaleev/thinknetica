@@ -8,8 +8,8 @@ feature 'Choose best answer spec', %q{
   given(:user) { create(:user) }
   given(:own_question) { create(:question, user: user) }
   given(:another_users_question) { create(:question) }
-  given(:answer) { create(:answer, question: own_question) }
-  given(:best_answer) { create(:another_answer, question: own_question) }
+  given!(:best_answer) { create(:another_answer, question: own_question) }
+  given!(:answer) { create(:answer, question: own_question) }
   given(:answers_for_another_question) { create_list(:answer, 4, question: another_users_question) }
 
   scenario 'Non-authentificated user try to choose best answer' do
@@ -18,25 +18,16 @@ feature 'Choose best answer spec', %q{
     expect(page).to_not have_link('It is best!')
   end
 
-  scenario 'js test', js: true do
-    sign_in(user)
-    visit question_path(own_question)
-
-    expect(page).to_not have_errors
-  end
   describe 'Authenticated user trying choose best answer' do
     before { sign_in(user) }
     
     scenario 'for own question', js: true do
-      best_answer
       visit question_path(own_question)
-      click_on 'It is best!'
-      save_and_open_page
+      click_on('It is best!', match: :first)
       within '#best' do
         expect(page).to have_content(best_answer.body)
       end
     end
-
 
     scenario "for another user's question" do
       answers_for_another_question

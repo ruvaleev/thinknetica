@@ -1,15 +1,16 @@
-tr id="tr#{q.id}"
-  td.title id="title#{q.id}" = link_to "#{q.title}", question_path(q.id)
-  td.body id="body#{q.id}" = q.body
-  - if current_user.present? && current_user.author_of?(q)
-    td.edit id="#{q.id}"
-      = link_to 'Edit', '#'
-      = link_to 'Cancel', '#', hidden: true
-      = link_to 'Edit', question_path( id: q, question: { body: q.body, title: q.title } ), method: :patch, hidden: true
-    td.delete
-      = link_to 'Delete', question_path(q.id), method: :delete
-td.form id="tr#{q.id}h"
-  = form_for q, remote: true do |question|
-    = question.text_field :title, value: q.title
-    = question.text_area :body, value: q.body
-    = question.submit 'Save'
+table
+  tr id="tr#{question.id}"
+    td.title id="title#{question.id}" = link_to "#{question.title}", question_path(question.id)
+    td.body id="body#{question.id}" = question.body
+    - if current_user.present? && current_user.author_of?(question)
+      td.edit-question id="#{question.id}"
+        = link_to 'Edit', '', class: 'edit-question-link', data: { id: question.id }
+        = link_to 'Cancel', '#', hidden: true
+        = link_to 'Edit', question_path( id: question, question: { body: question.body, title: question.title } ), method: :patch, hidden: true
+      td.delete
+        = link_to 'Delete', question_path(question.id), method: :delete
+  td.edit id="tr#{question.id}h"
+    = form_for question, remote: true, class: 'edit_question', html: { id: "edit-question-#{question.id}" } do |q|
+      = q.text_field :title, value: question.title
+      = q.text_area :body, value: question.body
+      = q.submit 'Save'
