@@ -5,6 +5,8 @@ class Question < ApplicationRecord
   
   validates :title, :body, presence: true
 
+  accepts_nested_attributes_for :attachments
+
   def not_awarded_answers
     answers.where(award: false)
   end
