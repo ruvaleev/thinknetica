@@ -1,5 +1,9 @@
 = @question.title
 = @question.body
+p Attachments:
+ul
+  - @question.attachments.each do |a|
+    li=a.file.file.filename
 = render 'answers/new'
 .errors
   = render 'shared/errors', object: @answer
