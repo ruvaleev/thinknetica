@@ -3,6 +3,9 @@ table.last_answer
     - if answer.persisted? 
       td.author User #{answer.user_id} answers
       td.answer = answer.body
+      td
+        - answer.attachments.each do |a|
+          = link_to a.file.identifier, a.file.url
       - if current_user.present? && current_user.author_of?(answer)
         td.delete
           = link_to 'Delete', question_answer_path(question_id: @question, id: answer), method: :delete, remote: true
