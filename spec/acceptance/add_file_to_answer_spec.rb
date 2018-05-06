@@ -23,4 +23,8 @@ feature 'Add files to answer', %q{
     end
   end
 
+  scenario 'User deletes file when answers question'
+
+  scenario "User can't delete not own files"
+
 end

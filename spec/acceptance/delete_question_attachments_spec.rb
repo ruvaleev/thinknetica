@@ -1,9 +1,9 @@
 require_relative 'acceptance_helper'
 
-feature 'Add files to question', %q{
-  In order to illustrate my question
+feature 'Delete question attachments', %q{
+  In order to edit my question
   As an questions author
-  I want to be able to attach files
+  I want to be able to delete attachments
 } do
 
   given(:user) { create(:user) }
