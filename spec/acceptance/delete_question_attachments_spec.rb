@@ -7,34 +7,27 @@ feature 'Delete question attachments', %q{
 } do
 
   given(:user) { create(:user) }
+  given(:question) { create(:question, user: user) }
+  given(:another_question) { create(:question) }
+  given(:attachment) { create(:attachment, attachable: question) }
 
-  background do
+  scenario "Question's author can delete an attachment" do
+    attachment
     sign_in(user)
-    visit new_question_path
-    fill_in 'Title', with: 'title'
-    fill_in 'Body', with: 'body'
-    attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
-  end
+    visit question_path(question)
+    click_on 'delete file'
 
-  scenario 'User adds file when asks question' do
-    click_on 'Create'
+    expect(page).to_not have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
 
-    expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
-  end
+  end 
 
-  scenario 'User adds few files when asks question', js: true do
-    click_on 'add file'
-    attach_file 'File', "#{Rails.root}/spec/rails_helper.rb", match: :first
-    click_on 'Create'
+  scenario "User try to delete another user's question's attachment" do
+    attachment
+    sign_in(user)
+    visit question_path(another_question)
 
-    expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/2/rails_helper.rb'
-    expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/3/spec_helper.rb'
-  end
+    expect(page).to_not have_link 'delete file'
 
-  scenario 'User deletes file when asks question' do
-    click_on 'remove file'
-
-    expect(page).to_not have_link 'spec_helper.rb', href: '/uploads/attachment/file/4/spec_helper.rb'
-  end
+  end 
 
 end
