@@ -7,7 +7,7 @@ class Answer < ApplicationRecord
 
   scope :best, -> { where(award: true) }
 
-  accepts_nested_attributes_for :attachments
+  accepts_nested_attributes_for :attachments, allow_destroy: true, reject_if: proc { |attr| attr['file'].nil? }
 
   def make_best
     Answer.transaction do

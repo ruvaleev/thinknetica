@@ -9,11 +9,11 @@ feature 'Delete question attachments', %q{
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
   given(:another_question) { create(:question) }
-  given(:attachment) { create(:attachment, attachable: question) }
+  given!(:attachment) { create(:attachment, attachable: question) }
+
+  background { sign_in(user) }
 
   scenario "Question's author can delete an attachment" do
-    attachment
-    sign_in(user)
     visit question_path(question)
     click_on 'delete file'
 
@@ -22,8 +22,6 @@ feature 'Delete question attachments', %q{
   end 
 
   scenario "User try to delete another user's question's attachment" do
-    attachment
-    sign_in(user)
     visit question_path(another_question)
 
     expect(page).to_not have_link 'delete file'
