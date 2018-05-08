@@ -3,6 +3,7 @@ class AnswersController < ApplicationController
   before_action :load_question
   before_action :load_answer, except: [:create]
 
+
   def create 
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user

@@ -29,7 +29,6 @@ feature 'Choose best answer spec', %q{
       end
     end
 
-
     scenario "for another user's question" do
       answers_for_another_question
       visit question_path(another_users_question)
