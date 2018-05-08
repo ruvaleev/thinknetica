@@ -7,7 +7,7 @@ class AttachmentsController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
-private
+  private
   
   def load_attachment
     @attachment = Attachment.find(params[:id])
