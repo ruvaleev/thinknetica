@@ -1,0 +1,21 @@
+= form_for @attachment, html: { class: "form form-horizontal attachment" } do |f|
+  .form-group
+    = f.label :file, :class => 'control-label col-lg-2'
+    .col-lg-10
+      = f.text_field :file, :class => 'form-control'
+    = f.error_span(:file)
+  .form-group
+    = f.label :attachable_id, :class => 'control-label col-lg-2'
+    .col-lg-10
+      = f.text_field :attachable_id, :class => 'form-control'
+    = f.error_span(:attachable_id)
+  .form-group
+    = f.label :attachable_type, :class => 'control-label col-lg-2'
+    .col-lg-10
+      = f.text_field :attachable_type, :class => 'form-control'
+    = f.error_span(:attachable_type)
+  .form-group
+    .col-lg-offset-2.col-lg-10
+      = f.submit nil, :class => 'btn btn-primary'
+      '
+      = link_to t('.cancel', :default => t("helpers.links.cancel")), attachments_path, :class => 'btn'
