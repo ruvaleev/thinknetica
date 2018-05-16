@@ -7,13 +7,18 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
     flash[:notice] = 'You have to log in to create Answer' unless current_user.present?
-    respond_to do |format|
-      if @answer.save
-        format.json { render json: @answer }
-      else
-        format.json { render json: @answer.errors.full_messages, status: :unprocessible_entity }
-      end
+    if @answer.save
+      flash[:notice] = 'Your answer successfully created.'
+    else
+      render 'error'
     end
+    # respond_to do |format|
+    #   if @answer.save
+    #     format.json { render json: @answer }
+    #   else
+    #     format.json { render json: @answer.errors.full_messages, status: :unprocessible_entity }
+    #   end
+    # end
   end
 
   def award
