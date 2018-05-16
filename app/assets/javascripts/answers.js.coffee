@@ -9,5 +9,4 @@ ready = ->
     answer_id = $(this).data('answerId');
     $('#edit-answer-' + answer_id).fadeIn();
 
-$(document).ready(ready)
 $(document).on('turbolinks:load', ready)

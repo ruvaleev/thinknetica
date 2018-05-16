@@ -1,5 +1,7 @@
 class Vote < ApplicationRecord
-  validates :answer_id, presence: true
+  belongs_to :object, polymorphic: true, optional: true
+  belongs_to :user
+
+  validates :object_id, presence: true
   validates :user_id, presence: true
-  validates :positive, presence: true
 end

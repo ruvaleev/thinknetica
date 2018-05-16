@@ -1,17 +1,8 @@
 table.last_answer
   tr id="tr#{answer.id}"
     - if answer.persisted?
-      td
-        td.raiting
-          = answer.raiting
-        td
-          table
-            tr
-              td
-                = link_to image_tag('plus', width: '20px'), question_answer_votes_path(question_id: @question, answer_id: answer, positive: true), method: :post, remote: true
-            tr
-              td
-                = image_tag('minus', width: '20px')
+      td.raiting
+        = render 'answers/raiting', answer: answer
       td
         table
           tr

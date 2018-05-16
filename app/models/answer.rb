@@ -2,7 +2,7 @@ class Answer < ApplicationRecord
   belongs_to :question
   belongs_to :user
   has_many :attachments, as: :attachable
-  has_many :votes, dependent: :destroy
+  has_many :votes, as: :object, dependent: :destroy
 
   validates :body, presence: true
 
@@ -18,7 +18,7 @@ class Answer < ApplicationRecord
   end
 
   def raiting
-    self.votes.where(positive:true).count - self.votes.where(positive:false).count
+    Vote.where(object_id: self.id, positive:true).count - Vote.where(object_id: self.id, positive:false).count
   end
 
 end

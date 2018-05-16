@@ -61,13 +61,14 @@ ActiveRecord::Schema.define(version: 20180516073006) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "votes", id: false, force: :cascade do |t|
-    t.bigint "answer_id", null: false
-    t.bigint "user_id", null: false
+  create_table "votes", force: :cascade do |t|
+    t.integer "object_id"
+    t.string "object_type"
+    t.integer "user_id"
     t.boolean "positive"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["answer_id"], name: "index_votes_on_answer_id"
+    t.index ["object_id"], name: "index_votes_on_object_id"
     t.index ["user_id"], name: "index_votes_on_user_id"
   end
 

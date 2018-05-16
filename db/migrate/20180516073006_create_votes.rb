@@ -1,7 +1,10 @@
 class CreateVotes < ActiveRecord::Migration[5.1]
   def change
-    create_join_table :answers, :users, table_name: :votes do |t|
-      t.index :answer_id
+    create_table :votes do |t|
+      t.integer :object_id
+      t.string :object_type
+      t.integer :user_id
+      t.index :object_id
       t.index :user_id
       t.boolean :positive
 
