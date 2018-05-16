@@ -1,0 +1,3 @@
+$('#tr<%= @answer.id %> .raiting').hide();
+$('#tr<%= @answer.id %> .raiting').html('<%= @answer.votes.count %>');
+$('#tr<%= @answer.id %> .raiting').fadeIn();

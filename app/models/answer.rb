@@ -2,6 +2,7 @@ class Answer < ApplicationRecord
   belongs_to :question
   belongs_to :user
   has_many :attachments, as: :attachable
+  has_many :votes, dependent: :destroy
 
   validates :body, presence: true
 
@@ -14,6 +15,10 @@ class Answer < ApplicationRecord
       question.answers.update_all(award: false)
       update!(award: true)
     end
+  end
+
+  def raiting
+    self.votes.where(positive:true).count - self.votes.where(positive:false).count
   end
 
 end
