@@ -7,10 +7,13 @@ feature 'Change rating of Quesiton', %q{
 } do
 
   given(:user) { create(:user) }
-  given!(:question) { create(:question) }
+  given(:question) { create(:question) }
+  given(:own_question) { create(:question, user: user) }
 
-  before(:each, authorized: :true) { sign_in(user) }
-  before { visit root_path }
+  before(:each, authorized: :true) do
+    question
+    sign_in(user)
+  end
 
   scenario 'Authorized user votes for good question', authorized: :true, js: true do
     click_on 'Plus'
@@ -18,6 +21,7 @@ feature 'Change rating of Quesiton', %q{
     within '.rating' do
       expect(page).to have_text '1'
     end
+    expect(page).to have_text "Question's Raiting is changed"
   end
 
   scenario 'Authorized user votes against bad question', authorized: :true, js: true do
@@ -26,9 +30,18 @@ feature 'Change rating of Quesiton', %q{
     within '.rating' do
       expect(page).to have_text '-1'
     end
+    expect(page).to have_text "Question's Raiting is changed"
+  end
+
+  scenario "Authorized user can't vote for own question", js: true do
+    sign_in(user)
+    own_question
+    expect(page).to_not have_link 'Plus'
+    expect(page).to_not have_link 'Minus'
   end
 
   scenario "Unauthorized user can't vote", js: true do
+    question
     expect(page).to_not have_link 'Plus'
     expect(page).to_not have_link 'Minus'
   end
