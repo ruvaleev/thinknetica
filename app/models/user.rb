@@ -11,8 +11,8 @@ class User < ApplicationRecord
     self.id == resource.user_id
   end
 
-  def voted?(object, positive)
-    Vote.where(object_id: object, user_id: self.id, positive: positive).present?
+  def voted?(object, positive, object_type)
+    Vote.where(object_id: object, user_id: self.id, positive: positive, object_type: object_type).present?
   end
 
 end

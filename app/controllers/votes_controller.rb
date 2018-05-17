@@ -3,18 +3,24 @@ class VotesController < ApplicationController
 
   def create
     @answer = Answer.find(params[:answer_id])
-    @question = Question.find(@answer.question_id)
-    if current_user.author_of?(@answer)
-      @message = "You can't vote for own answer"
+    @question = Question.find(params[:question_id])
+    @object_type = params[:object_type]
+    if @object_type == 'Question'
+      @object = @question
     else
-      if current_user.voted?(@answer, params[:positive])
-        current_user.votes.where(object_id: @answer, positive: params[:positive]).first.destroy
-        @message = "Answer's Raiting is changed"
+      @object = @answer
+    end
+    if current_user.author_of?(@object)
+      @message = "You can't vote for own #{params[:object_type].downcase}"
+    else
+      if current_user.voted?(@object, params[:positive], params[:object_type])
+        current_user.votes.where(object_id: @object.id, positive: params[:positive], object_type: params[:object_type]).first.destroy
+        @message = "#{params[:object_type]}'s Raiting is changed"
       else
-        @vote = current_user.votes.new(object_id: params[:answer_id], positive: params[:positive])
+        @vote = current_user.votes.new(object_id: @object.id, positive: params[:positive], object_type: params[:object_type])
         
         if @vote.save
-          @message = "Answer's Raiting is changed"
+          @message = "#{params[:object_type]}'s Raiting is changed"
         else
           @message = @vote.errors.messages
         end

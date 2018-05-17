@@ -17,7 +17,7 @@ class Answer < ApplicationRecord
     end
   end
 
-  def raiting
+  def rating
     Vote.where(object_id: self.id, positive:true).count - Vote.where(object_id: self.id, positive:false).count
   end
 

@@ -11,4 +11,8 @@ class Question < ApplicationRecord
   def not_awarded_answers
     answers.where(award: false)
   end
+
+  def rating
+    Vote.where(object_id: self.id, positive:true).count - Vote.where(object_id: self.id, positive:false).count
+  end
 end

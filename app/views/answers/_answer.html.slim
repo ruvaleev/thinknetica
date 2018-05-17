@@ -1,8 +1,8 @@
 table.last_answer
   tr id="tr#{answer.id}"
     - if answer.persisted?
-      td.raiting
-        = render 'answers/raiting', answer: answer
+      td.rating
+        = render partial: 'answers/rating', locals: { question: @question, answer: answer, resource: answer, resource_name: 'Answer' }
       td
         table
           tr
