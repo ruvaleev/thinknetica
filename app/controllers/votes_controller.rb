@@ -2,12 +2,12 @@ class VotesController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    @answer = Answer.find(params[:answer_id])
-    @question = Question.find(params[:question_id])
     @object_type = params[:object_type]
     if @object_type == 'Question'
+      @question = Question.find(params[:resource_id])
       @object = @question
     else
+      @answer = Answer.find(params[:resource_id])
       @object = @answer
     end
     if current_user.author_of?(@object)

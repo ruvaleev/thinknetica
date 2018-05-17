@@ -4,10 +4,10 @@ Rails.application.routes.draw do
   resources :questions do
     resources :answers do
       patch 'award', on: :member
-      resources :votes
     end
   end
 
+  resources :votes
   resources :attachments
 
   root to: "questions#index"
