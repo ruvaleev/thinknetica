@@ -1,4 +1,6 @@
 class Question < ApplicationRecord
+  include Ratable
+  
   belongs_to :user
   has_many :answers, dependent: :destroy
   has_many :attachments, as: :attachable, dependent: :destroy
@@ -12,7 +14,4 @@ class Question < ApplicationRecord
     answers.where(award: false)
   end
 
-  def rating
-    Vote.where(object_id: self.id, positive:true).count - Vote.where(object_id: self.id, positive:false).count
-  end
 end

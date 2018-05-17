@@ -1,4 +1,6 @@
 class Answer < ApplicationRecord
+  include Ratable
+  
   belongs_to :question
   belongs_to :user
   has_many :attachments, as: :attachable
@@ -15,10 +17,6 @@ class Answer < ApplicationRecord
       question.answers.update_all(award: false)
       update!(award: true)
     end
-  end
-
-  def rating
-    Vote.where(object_id: self.id, positive:true).count - Vote.where(object_id: self.id, positive:false).count
   end
 
 end
