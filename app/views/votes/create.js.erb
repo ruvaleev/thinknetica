@@ -1,4 +1,4 @@
-$('#tr<%= @object_type == 'Question' ? @question.id : @answer.id %> .rating').hide();
-$('#tr<%= @object_type == 'Question' ? @question.id : @answer.id %> .rating').html('<%= j render 'answers/rating', answer: @answer, question: @question, resource: @object_type == 'Question' ? @question : @answer, resource_name: @object_type %>');
-$('#tr<%= @object_type == 'Question' ? @question.id : @answer.id %> .rating').fadeIn();
+$('#tr<%= @object.id %> .rating').hide();
+$('#tr<%= @object.id %> .rating').html('<%= j render 'answers/rating', resource: @object %>');
+$('#tr<%= @object.id %> .rating').fadeIn();
 $('.errors').html('<%= @message %>');

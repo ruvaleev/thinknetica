@@ -21,11 +21,11 @@ RSpec.describe User do
   end
 
   it 'user voted or not for answer' do
-    expect( user.voted?(another_answer, true, 'Answer') ).to be_truthy
+    expect( user.voted?(another_answer, true) ).to be_truthy
   end
 
   it 'user voted or not for question' do
-    expect( user.voted?(another_question, true, 'Question') ).to be_truthy
+    expect( user.voted?(another_question, true) ).to be_truthy
   end
 
 end

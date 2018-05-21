@@ -21,7 +21,6 @@ feature 'Change rating of Quesiton', %q{
     within '.rating' do
       expect(page).to have_text '1'
     end
-    expect(page).to have_text "Question's Raiting is changed"
   end
 
   scenario 'Authorized user votes against bad question', authorized: :true, js: true do
@@ -30,7 +29,6 @@ feature 'Change rating of Quesiton', %q{
     within '.rating' do
       expect(page).to have_text '-1'
     end
-    expect(page).to have_text "Question's Raiting is changed"
   end
 
   scenario "Authorized user can't vote for own question", js: true do
