@@ -2,7 +2,7 @@ table.last_answer
   tr id="tr#{answer.id}"
     - if answer.persisted?
       td.rating
-        = render partial: 'answers/rating', locals: { question: @question, answer: answer, resource: answer, resource_name: 'Answer' }
+        = render partial: 'answers/rating', locals: { resource: answer }
       td
         table
           tr

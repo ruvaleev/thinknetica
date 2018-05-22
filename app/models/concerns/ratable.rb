@@ -13,12 +13,12 @@ module Ratable
     if user.voted?(self, value)
       self.votes.where(object_type: self.model_name.name, user_id: user, value: value).first.destroy
     else
-      @vote = self.votes.new(user: user, value: value)
-      if @vote.save
-        @message = "#{@vote.object_type}'s Raiting is changed"
-      else
-        @message = @vote.errors.messages
-      end
+      self.votes.create(user: user, value: value)
+      # if @vote.save
+      #   @message = "#{@vote.object_type}'s Raiting is changed"
+      # else
+      #   @message = @vote.errors.messages
+      # end
     end
   end
 

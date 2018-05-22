@@ -4,8 +4,8 @@ RSpec.describe Question, type: :model do
   let(:question) { create(:question) }
   let!(:answer) { create_list(:answer, 4, question: question) }
   let(:best_answer) { create(:answer, question: question) }
-  let!(:votes_for_question) { create_list(:vote_for_question, 4, object: question, positive: true) }
-  let!(:vote_against_question) { create(:vote_for_question, object: question, positive: false) }
+  let!(:votes_for_question) { create_list(:vote_for_question, 4, object: question, value: 1) }
+  let!(:vote_against_question) { create(:vote_for_question, object: question, value: -1) }
 
   it { should have_many(:answers).dependent(:destroy) }
   it { should validate_presence_of :title }

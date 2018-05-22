@@ -17,3 +17,7 @@
 .icon {
   width: 20px;
 }
+
+.disactive {
+  opacity: 0.5;
+}

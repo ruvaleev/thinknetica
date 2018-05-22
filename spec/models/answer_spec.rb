@@ -4,8 +4,8 @@ RSpec.describe Answer, type: :model do
   let(:question) { create(:question) }
   let(:answer) { create(:answer, question: question) }
   let!(:former_best_answer) { create(:answer, question: question, award: true) }
-  let!(:votes_for_answer) { create_list(:vote_for_answer, 4, object: answer, positive: true) }
-  let!(:vote_against_answer) { create(:vote_for_answer, object: answer, positive: false) }
+  let!(:votes_for_answer) { create_list(:vote_for_answer, 4, object: answer, value: 1) }
+  let!(:vote_against_answer) { create(:vote_for_answer, object: answer, value: -1) }
 
   it { should belong_to :question }
   it { should validate_presence_of :body }
