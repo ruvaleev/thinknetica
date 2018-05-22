@@ -11,8 +11,9 @@ class User < ApplicationRecord
     self.id == resource.user_id
   end
 
-  def voted?(object, positive)
-    self.votes.where(object_id: object, positive: positive, object_type: object.model_name.name).present?
+  def voted?(object, value)
+    logger.debug "входящие в воутед параметры #{object} #{value}"
+    self.votes.where(object: object, value: value, object_type: object.model_name.name).present?
   end
 
 end

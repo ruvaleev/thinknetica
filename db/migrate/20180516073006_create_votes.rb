@@ -6,7 +6,7 @@ class CreateVotes < ActiveRecord::Migration[5.1]
       t.integer :user_id
       t.index :object_id
       t.index :user_id
-      t.boolean :positive
+      t.integer :value
 
       t.timestamps
     end

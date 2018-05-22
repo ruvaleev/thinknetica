@@ -1,21 +1,23 @@
 module Ratable
   extend ActiveSupport::Concern
 
-  def rating
-    Vote.where(object_id: self.id, positive:true).count - Vote.where(object_id: self.id, positive:false).count
+  included do
+    has_many :votes, as: :object, dependent: :destroy
   end
 
-  def vote(user, positive)
-    if user.voted?(self, positive)
-      Vote.where(object_id: self, object_type: self.model_name.name, user_id: user).first.destroy
+  def rating
+    self.votes.sum(:value)
+  end
+
+  def vote(user, value)
+    if user.voted?(self, value)
+      self.votes.where(object_type: self.model_name.name, user_id: user, value: value).first.destroy
     else
-      @vote = self.votes.new(user: user, positive: positive)
+      @vote = self.votes.new(user: user, value: value)
       if @vote.save
         @message = "#{@vote.object_type}'s Raiting is changed"
-        logger.debug "сохранили"
       else
         @message = @vote.errors.messages
-        logger.debug "@vote имеет ошибки #{@vote.errors.messages}"
       end
     end
   end

@@ -12,7 +12,7 @@ RSpec.describe VotesController, type: :controller do
     before { sign_in(user) }
 
     it "creates vote for answer" do
-      expect { post :create, params: { resource_id: answer, format: :js } }.to change(Vote, :count).by(1)
+      expect { post :create, params: { resource_id: answer, value: 1, format: :js } }.to change(Vote, :count).by(1)
     end
     it "creates vote for question" do
       expect { post :create, params: { resource_id: question, object_type:'Question', format: :js } }.to change(Vote, :count).by(1)
@@ -25,5 +25,16 @@ RSpec.describe VotesController, type: :controller do
       vote_for_question
       expect { post :create, params: { resource_id: question, object_type:'Question', format: :js } }.to change(Vote, :count).by(-1)
     end
+    it "it retrieves success response after voting for question" do
+      post :create, params: { resource_id: question, object_type:'Question', format: :js }
+      assert_redirected_to votes_path
+      assert_response :success
+    end
+    it "it retrieves success response after voting for answer" do
+      post :create, params: { resource_id: answer, object_type:'Answer', format: :js }
+      assert_redirected_to votes_path
+      assert_response :success
+    end
+
   end
 end

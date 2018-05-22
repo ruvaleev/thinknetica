@@ -8,7 +8,7 @@ class VotesController < ApplicationController
     else
       @object = Answer.find(params[:resource_id])
     end
-    @vote = @object.vote(current_user, params[:positive])
+    @vote = @object.vote(current_user, params[:value])
   end
 
 end

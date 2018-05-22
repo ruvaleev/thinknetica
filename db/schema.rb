@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 20180516073006) do
     t.integer "object_id"
     t.string "object_type"
     t.integer "user_id"
-    t.boolean "positive"
+    t.integer "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["object_id"], name: "index_votes_on_object_id"
