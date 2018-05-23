@@ -12,7 +12,6 @@ class User < ApplicationRecord
   end
 
   def voted?(object, value)
-    logger.debug "входящие в воутед параметры #{object} #{value}"
     self.votes.where(object: object, value: value, object_type: object.model_name.name).present?
   end
 
