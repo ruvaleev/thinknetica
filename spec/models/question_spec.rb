@@ -6,6 +6,7 @@ RSpec.describe Question, type: :model do
   let(:best_answer) { create(:answer, question: question) }
   let!(:votes_for_question) { create_list(:vote_for_question, 4, object: question, value: 1) }
   let!(:vote_against_question) { create(:vote_for_question, object: question, value: -1) }
+  let!(:user) { create(:user) }
 
   it { should have_many(:answers).dependent(:destroy) }
   it { should validate_presence_of :title }
@@ -21,5 +22,10 @@ RSpec.describe Question, type: :model do
 
   it 'return rating of question' do
     expect( question.rating ).to eq(3)
+  end
+
+  it 'can be voted' do
+    question.vote(user, 1)
+    expect( question.rating ).to eq(4)
   end
 end
