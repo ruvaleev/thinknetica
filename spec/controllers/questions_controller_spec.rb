@@ -151,4 +151,25 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to redirect_to questions_path
     end
   end
+
+  describe 'PATCH #create_vote' do
+    let!(:votable_question) { create(:question) }
+    let(:vote_for_question) { create(:vote_for_question, user: user, object: votable_question, value: 1) }
+    before { sign_in(user) }
+
+    it "creates vote for question" do
+      expect { patch :create_vote, params: { id: votable_question, value: 1, format: :json } }.to change(Vote, :count).by(1)
+    end
+
+    it "deletes vote for question" do
+      vote_for_question
+      expect { patch :create_vote, params: { id: votable_question, value: 1, format: :json } }.to change(Vote, :count).by(-1)
+    end
+
+    it "it retrieves success response after voting for question" do
+      patch :create_vote, params: { id: votable_question, value: 1, format: :json }
+      expect(response).to be_success
+    end
+
+  end
 end

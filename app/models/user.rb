@@ -12,7 +12,7 @@ class User < ApplicationRecord
   end
 
   def voted?(object, value)
-    self.votes.where(object: object, value: value, object_type: object.model_name.name).present?
+    self.votes.where(object: object, value: value).present?
   end
 
 end

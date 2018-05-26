@@ -1,12 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
+  let!(:user) { create(:user) }
   let(:question) { create(:question) }
   let(:answer) { create(:answer, question: question) }
+  let(:own_answer) { create(:answer, question: question, user: user) }
   let!(:former_best_answer) { create(:answer, question: question, award: true) }
   let!(:votes_for_answer) { create_list(:vote_for_answer, 4, object: answer, value: 1) }
   let!(:vote_against_answer) { create(:vote_for_answer, object: answer, value: -1) }
-  let!(:user) { create(:user) }
 
   it { should belong_to :question }
   it { should validate_presence_of :body }
@@ -32,6 +33,11 @@ RSpec.describe Answer, type: :model do
   it 'can be voted' do
     answer.vote(user, 1)
     expect( answer.rating ).to eq(4)
+  end
+
+  it "will be deleted when trying to be voted twice" do
+    2.times { answer.vote(user, 1) }
+    expect( answer.rating ).to eq(3)
   end
 
 end

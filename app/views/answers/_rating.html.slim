@@ -8,7 +8,7 @@ table
       table
         tr class=(current_user.voted?(resource, 1) ? 'plus-minus' : 'plus-minus disactive')
           td
-            = link_to image_tag('plus', class: 'icon'), votes_path(resource_id: resource, value: 1, object_type: resource.model_name.name), method: :post, remote: true, data: { type: :json }
+            = link_to image_tag('plus', class: 'icon'), vote_url(resource, 1), method: :patch, remote: true
         tr class=(current_user.voted?(resource, '-1') ? 'plus-minus' : 'plus-minus disactive')
           td
-            = link_to image_tag('minus', class: 'icon'), votes_path(resource_id: resource, value: -1, object_type: resource.model_name.name), method: :post, remote: true, data: { type: :json }
+            = link_to image_tag('minus', class: 'icon'), vote_url(resource, -1), method: :patch, remote: true

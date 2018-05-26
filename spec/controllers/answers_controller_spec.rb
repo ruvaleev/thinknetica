@@ -86,4 +86,24 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  describe 'PATCH #create_vote' do
+    let(:vote_for_answer) { create(:vote_for_answer, user: user, object: another_answer, value: 1) }
+    before { sign_in(user) }
+
+    it "creates vote for answer" do
+      expect { patch :create_vote, params: { id: another_answer, value: 1, format: :json } }.to change(Vote, :count).by(1)
+    end
+
+    it "deletes vote for answer" do
+      vote_for_answer
+      expect { patch :create_vote, params: { id: another_answer, value: 1, format: :json } }.to change(Vote, :count).by(-1)
+    end
+
+    it "it retrieves success response after voting for answer" do
+      patch :create_vote, params: { id: answer, value: 1, format: :json }
+      expect(response).to be_success
+    end
+
+  end
+
 end

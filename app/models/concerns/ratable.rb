@@ -6,14 +6,14 @@ module Ratable
   end
 
   def rating
-    self.votes.sum(:value)
+    votes.sum(:value)
   end
 
   def vote(user, value)
     if user.voted?(self, value)
-      self.votes.where(object_type: self.model_name.name, user_id: user, value: value).first.destroy
+      votes.where(user: user, value: value).first.destroy
     else
-      self.votes.create(user: user, value: value)
+      votes.create(user: user, value: value)
     end
   end
 

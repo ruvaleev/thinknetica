@@ -1,9 +1,10 @@
-class QuestionsController < ApplicationController
+class QuestionsController < VotesController
   before_action :authenticate_user!, except: [ :show, :index ]
   before_action :load_question, only: [ :show, :edit, :update, :destroy, :vote ]
   
   def index
     @questions = Question.all
+    @vote = Vote.new
   end
 
   def show
@@ -42,6 +43,11 @@ class QuestionsController < ApplicationController
       flash[:notice] = 'You can destroy only your own questions!'
     end
     redirect_to questions_path
+  end
+
+  def create_vote
+    @object = Question.find(params[:id])
+    super
   end
 
   private

@@ -1,6 +1,6 @@
-class AnswersController < ApplicationController
+class AnswersController < VotesController
   before_action :authenticate_user!
-  before_action :load_question
+  before_action :load_question, except: [:create_vote]
   before_action :load_answer, except: [:create]
 
   def create 
@@ -12,13 +12,6 @@ class AnswersController < ApplicationController
     else
       render 'error'
     end
-    # respond_to do |format|
-    #   if @answer.save
-    #     format.json { render json: @answer }
-    #   else
-    #     format.json { render json: @answer.errors.full_messages, status: :unprocessible_entity }
-    #   end
-    # end
   end
 
   def award
@@ -36,6 +29,11 @@ class AnswersController < ApplicationController
     else
       @notice = 'You can delete only your own answer!'
     end
+  end
+
+  def create_vote
+    @object = Answer.find(params[:id])
+    super
   end
 
 private
