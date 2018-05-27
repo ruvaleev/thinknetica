@@ -1,7 +1,5 @@
-class VotesController < ApplicationController
-  before_action :authenticate_user!
-
-  protected
+module Voted
+  extend ActiveSupport::Concern
 
   def create_vote
     @vote = @object.vote(current_user, params[:value])
