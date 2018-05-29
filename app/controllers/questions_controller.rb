@@ -46,11 +46,6 @@ class QuestionsController < ApplicationController
     redirect_to questions_path
   end
 
-  def create_vote
-    @object = Question.find(params[:id])
-    super
-  end
-
   private
 
   def load_question

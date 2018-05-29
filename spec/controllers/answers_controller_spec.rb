@@ -57,9 +57,9 @@ RSpec.describe AnswersController, type: :controller do
     end
 
 
-    it 'redirect to question' do
-      delete :destroy, params: { question_id: question, id: answer }, format: :js
-      redirect_to question_path(assigns(:question))
+    it 'it retrieves success response after destroy answer' do
+      delete :destroy, params: { id: answer }, format: :js
+      expect(response).to be_success
     end
   end
 
