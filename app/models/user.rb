@@ -5,10 +5,14 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
   has_many :answers, dependent: :destroy
   has_many :questions, dependent: :destroy
+  has_many :votes
 
   def author_of?(resource)
     self.id == resource.user_id
   end
 
+  def voted?(object, value)
+    self.votes.where(object: object, value: value).present?
+  end
 
 end

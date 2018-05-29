@@ -1,8 +1,10 @@
 class Answer < ApplicationRecord
+  include Ratable
+  
   belongs_to :question
   belongs_to :user
   has_many :attachments, as: :attachable
-
+  
   validates :body, presence: true
 
   scope :best, -> { where(award: true) }

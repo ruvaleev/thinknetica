@@ -1,4 +1,6 @@
 class Question < ApplicationRecord
+  include Ratable
+  
   belongs_to :user
   has_many :answers, dependent: :destroy
   has_many :attachments, as: :attachable, dependent: :destroy
@@ -10,4 +12,5 @@ class Question < ApplicationRecord
   def not_awarded_answers
     answers.where(award: false)
   end
+
 end

@@ -10,14 +10,4 @@ ready = ->
     $('#edit-question-' + id).fadeIn();
 
 
-
- # $('.edit-question-link').on('click', function(){
-  #  id = $(this).data('id');
-   # $(`#tr${id}`).hide();
-    #$(`#edit-question-${id}`).fadeIn();
-#    return false;
- # })
-
-
-$(document).ready(ready)
 $(document).on('turbolinks:load', ready)

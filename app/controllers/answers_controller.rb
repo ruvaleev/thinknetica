@@ -1,6 +1,7 @@
 class AnswersController < ApplicationController
+  include Voted
   before_action :authenticate_user!
-  before_action :load_question
+  before_action :load_question, only: [:create, :award]
   before_action :load_answer, except: [:create]
 
   def create 
@@ -12,7 +13,6 @@ class AnswersController < ApplicationController
     else
       render 'error'
     end
-    
   end
 
   def award
@@ -20,6 +20,7 @@ class AnswersController < ApplicationController
   end
 
   def update
+    @question = @answer.question
     @answer.update(answer_params) if current_user.author_of?(@answer)
   end
 
@@ -31,7 +32,7 @@ class AnswersController < ApplicationController
       @notice = 'You can delete only your own answer!'
     end
   end
-
+  
 private
 
   def load_question

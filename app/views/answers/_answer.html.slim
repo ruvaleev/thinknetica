@@ -1,25 +1,28 @@
 table.last_answer
   tr id="tr#{answer.id}"
-    - if answer.persisted? 
-      td.author User #{answer.user_id} answers
-      td.answer = answer.body
-        
-      - if current_user.present? && current_user.author_of?(answer)
-        td.delete
-          = link_to 'Delete', question_answer_path(question_id: @question, id: answer), method: :delete, remote: true
-        td.edit id=answer.id 
-          = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-        td.form id="f#{answer.id}"  
-          = form_for [@question, answer], remote: true, class: 'edit_answer', html: { id: "edit-answer-#{answer.id}" } do |f|
-            = f.label :body, Answer
-            = f.text_area :body
-            = f.submit 'Save'
-      - if current_user.present? && current_user.author_of?(@question)
-        td.best
-          = link_to 'It is best!', award_question_answer_path(question_id: @question, id: answer), method: :patch, remote: true
-      - answer.attachments.each do |a|
-        tr
-          td  
-            li= link_to a.file.identifier, a.file.url
-            td.img-delete
-              = link_to image_tag('cancel.png', width: '20px'), attachment_path(a.id), method: 'delete' if current_user.present? && current_user.author_of?(answer)
+    - if answer.persisted?
+      td.rating
+        = render partial: 'answers/rating', locals: { resource: answer }
+      td
+        table
+          tr
+            td.author User #{answer.user_id} answers
+            td.answer = answer.body
+            - if current_user.present? && current_user.author_of?(answer)
+              td.delete
+                = link_to 'Delete', answer_path(id: answer), method: :delete, remote: true
+              td.edit id=answer.id 
+                = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+              td.form id="f#{answer.id}"  
+                = form_for answer, remote: true, class: 'edit_answer', html: { id: "edit-answer-#{answer.id}" } do |f|
+                  = f.label :body, Answer
+                  = f.text_area :body
+                  = f.submit 'Save'
+            - if current_user.present? && current_user.author_of?(@question)
+              td.best
+                = link_to 'It is best!', award_answer_path(id: answer, question_id: @question), method: :patch, remote: true
+          - answer.attachments.each do |a|
+            tr
+              td = link_to a.file.identifier, a.file.url
+              td.img-delete
+                  = link_to image_tag('cancel', width: '20px'), attachment_path(a.id), method: 'delete' if current_user.present? && current_user.author_of?(answer)
