@@ -44,7 +44,7 @@ feature 'registration', %q{
     fill_in 'Password confirmation', with: '123456'
     click_on 'Sign up'
     
-    expect(page).to have_content "invalid Email"
+    expect(page).to have_content "Email is invalid"
   end
 
   scenario "Registered user doesn't see the register button" do

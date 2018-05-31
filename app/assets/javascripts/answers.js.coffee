@@ -9,4 +9,14 @@ ready = ->
     answer_id = $(this).data('answerId');
     $('#edit-answer-' + answer_id).fadeIn();
 
+  App.cable.subscriptions.create('AnswersChannel', {
+    connected: ->
+      console.log 'Connected!'
+      @perform 'follow'
+    ,
+
+    received: (data) ->
+      $('.answers').append data
+  })
+
 $(document).on('turbolinks:load', ready)

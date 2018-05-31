@@ -9,5 +9,14 @@ ready = ->
     $('#tr' + id).hide();
     $('#edit-question-' + id).fadeIn();
 
+  App.cable.subscriptions.create('QuestionsChannel', {
+    connected: ->
+      console.log 'Connected!'
+      @perform 'follow'
+    ,
+
+    received: (data) ->
+      $('.questions').append data
+  })
 
 $(document).on('turbolinks:load', ready)

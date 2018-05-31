@@ -2,6 +2,8 @@ class QuestionsController < ApplicationController
   include Voted
   before_action :authenticate_user!, except: [ :show, :index ]
   before_action :load_question, only: [ :show, :edit, :update, :destroy, :vote ]
+
+  after_action :publish_question, only: [ :create ]
   
   def index
     @questions = Question.all
@@ -54,5 +56,22 @@ class QuestionsController < ApplicationController
 
   def question_params
   	params.require(:question).permit(:title, :body, attachments_attributes: [:file, :id, :_destroy])
+  end
+
+  def publish_question
+    return if @question.errors.any?
+    renderer = ApplicationController.renderer.new
+    renderer.instance_variable_set(:@env, { "HTTP_HOST"=>"localhost:3000",  
+                                            "HTTPS"=>"off",   
+                                            "REQUEST_METHOD"=>"GET",   
+                                            "SCRIPT_NAME"=>"",   
+                                            "warden" => warden })
+    ActionCable.server.broadcast(
+      'questions',
+      renderer.render(
+        partial: 'questions/question',
+        locals: { question: @question }
+      )
+    )
   end
 end
