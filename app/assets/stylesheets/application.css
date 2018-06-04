@@ -18,6 +18,10 @@
   width: 20px;
 }
 
+/*.award {
+  background:url('/assets/images/award');
+}*/
+
 .disactive {
   opacity: 0.5;
 }

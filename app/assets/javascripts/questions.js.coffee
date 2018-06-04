@@ -16,7 +16,11 @@ ready = ->
     ,
 
     received: (data) ->
-      $('.questions').append data
+      question = JSON.parse(data)
+      $('.questions').append(JST['question'](
+        question: question
+        current_user: gon.current_user
+      ))
   })
 
 $(document).on('turbolinks:load', ready)

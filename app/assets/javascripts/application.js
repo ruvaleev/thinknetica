@@ -16,6 +16,7 @@
 //= require action_cable
 //= require turbolinks
 //= require cocoon
+//= require skim
 //= require_tree .
 
 var App = App || {};

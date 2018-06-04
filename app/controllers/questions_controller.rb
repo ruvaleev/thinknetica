@@ -8,12 +8,15 @@ class QuestionsController < ApplicationController
   def index
     @questions = Question.all
     @vote = Vote.new
+    gon.current_user = current_user || false
   end
 
   def show
     @answer = @question.answers.new
     @best = @question.answers.best.first
     @answer.attachments.build
+    gon.current_user = current_user || false
+    gon.question = @question
   end
 
   def new
@@ -67,11 +70,7 @@ class QuestionsController < ApplicationController
                                             "SCRIPT_NAME"=>"",   
                                             "warden" => warden })
     ActionCable.server.broadcast(
-      'questions',
-      renderer.render(
-        partial: 'questions/question',
-        locals: { question: @question }
-      )
+      'questions', @question.to_json
     )
   end
 end

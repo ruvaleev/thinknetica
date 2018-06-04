@@ -1,8 +1,9 @@
 class AnswersController < ApplicationController
   include Voted
   before_action :authenticate_user!
-  before_action :load_question, only: [:create, :award]
-  before_action :load_answer, except: [:create]
+  before_action :load_question, only: [ :create, :award ]
+  before_action :load_answer, except: [ :create ]
+  after_action :publish_answer, only: [ :create ]
 
   def create 
     @answer = @question.answers.new(answer_params)
@@ -45,5 +46,18 @@ private
 
   def answer_params
     params.require(:answer).permit(:body, attachments_attributes: [:file])
+  end
+
+  def publish_answer
+    return if @answer.errors.any?
+    renderer = ApplicationController.renderer.new
+    renderer.instance_variable_set(:@env, { "HTTP_HOST"=>"localhost:3000",  
+                                            "HTTPS"=>"off",   
+                                            "REQUEST_METHOD"=>"GET",   
+                                            "SCRIPT_NAME"=>"",   
+                                            "warden" => warden })
+    ActionCable.server.broadcast(
+      'answers', @answer.to_json
+    )
   end
 end
