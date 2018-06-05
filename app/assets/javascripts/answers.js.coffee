@@ -9,6 +9,11 @@ ready = ->
     answer_id = $(this).data('answerId');
     $('#edit-answer-' + answer_id).fadeIn();
 
+  $('.comment-answer-link').click (e) ->
+    e.preventDefault();
+    answer_id = $(this).data('answerId');
+    $('#comment-answer-' + answer_id).fadeIn();
+
   App.cable.subscriptions.create('AnswersChannel', {
     connected: ->
       console.log 'Connected!'
