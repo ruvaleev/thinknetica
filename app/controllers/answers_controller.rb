@@ -58,7 +58,7 @@ private
                                             "SCRIPT_NAME"=>"",   
                                             "warden" => warden })
     ActionCable.server.broadcast(
-      'answers', @answer.to_json
+      "answers_#{@question.id}", @answer.to_json
     )
   end
 end

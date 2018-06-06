@@ -24,5 +24,5 @@ table.last_answer
               td.best
                 = link_to 'It is best!', award_answer_path(id: answer, question_id: @question), method: :patch, remote: true
           = render 'answers/attachment', answer: answer
-    tr 
-      = render 'answers/comment', answer: answer
+    tr id="comments_for_answer_#{answer.id}"
+      = render 'comments/comment', answer: answer

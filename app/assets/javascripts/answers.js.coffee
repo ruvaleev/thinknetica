@@ -17,16 +17,13 @@ ready = ->
   App.cable.subscriptions.create('AnswersChannel', {
     connected: ->
       console.log 'Connected!'
-      console.log(gon.question)
-      console.log(gon.current_user.id)
-      @perform 'follow'  
+      console.log gon.question.id
+      @perform 'follow', question_id: gon.question.id
     ,
 
     received: (data) ->
-      console.log(data)
       answer = JSON.parse(data)
-      console.log(answer)
-      console.log('куррент юзер' + gon.current_user.id)
+      console.log data
       unless @userIsCurrentUser(answer.user_id)
         $('.answers').append(JST['answer'](
           answer: answer,
