@@ -1,6 +1,5 @@
 class AnswersController < ApplicationController
   include Voted
-  include Commented
   before_action :authenticate_user!
   before_action :load_question, only: [ :create, :award ]
   before_action :load_answer, except: [ :create ]
@@ -57,8 +56,9 @@ private
                                             "REQUEST_METHOD"=>"GET",   
                                             "SCRIPT_NAME"=>"",   
                                             "warden" => warden })
-    ActionCable.server.broadcast(
-      "answers_#{@question.id}", @answer.to_json
-    )
+    ActionCable.server.broadcast( "answers_#{@question.id}", {
+      answer: @answer.to_json,
+      attachments: @answer.attachments.to_json
+    })
   end
 end
