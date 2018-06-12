@@ -31,5 +31,30 @@ feature 'Create answer', %q{
 
     expect(page).to have_content "Body can't be blank"
   end
+
+  context 'multiple sessions' do
+    scenario "answer appears on another user's page", js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        fill_in 'answer[body]', :with => 'Test answer body. Much of text'
+        click_on 'Answer'
+
+        expect(page).to have_text('Test answer body. Much of text')
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).to have_text('Test answer body. Much of text')
+      end
+
+    end
+  end
   
 end

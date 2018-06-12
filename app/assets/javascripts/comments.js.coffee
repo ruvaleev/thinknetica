@@ -3,27 +3,23 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 ready = ->
-  $('.edit-answer-link').click (e) ->
+  $('.comment-answer-link').click (e) ->
     e.preventDefault();
-    $(this).hide();
     answer_id = $(this).data('answerId');
-    $('#edit-answer-' + answer_id).fadeIn();
+    $('#comment-answer-' + answer_id).fadeIn();
 
-  App.cable.subscriptions.create('AnswersChannel', {
+  App.cable.subscriptions.create('CommentsChannel', {
     connected: ->
       @perform 'follow', question_id: gon.question.id
     ,
 
     received: (data) ->
-      answer = JSON.parse(data.answer)
-      attachments = JSON.parse(data.attachments)
-      unless @userIsCurrentUser(answer.user_id)
-        $('.answers').append(JST['answer'](
-          answer: answer,
-          current_user: gon.current_user,
-          question: gon.question,
-          attachments: attachments
-          )) 
+      comment = JSON.parse(data)
+      
+      unless @userIsCurrentUser(comment.user_id)
+        $('#comments_for_answer_' + comment.commentable_id).append(JST['comment'](
+          comment: comment
+        )) 
 
     userIsCurrentUser: (user_id) ->
       user_id is gon.current_user.id    

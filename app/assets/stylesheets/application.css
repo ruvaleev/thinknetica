@@ -18,6 +18,13 @@
   width: 20px;
 }
 
+.edit, .delete, .comment, .best {
+  font-family: arial;
+  font-size: 12px;
+  vertical-align: bottom;
+  text-indent: 5px;
+}
+
 .disactive {
   opacity: 0.5;
 }

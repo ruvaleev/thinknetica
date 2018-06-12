@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     resources :answers do
       patch 'award', on: :member
       patch 'create_vote', on: :member
+      
+      resources :comments
     end
 
   end
@@ -15,4 +17,5 @@ Rails.application.routes.draw do
 
   root to: "questions#index"
 
+  mount ActionCable.server => '/cable'
 end

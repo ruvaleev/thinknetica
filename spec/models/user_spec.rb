@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe User do
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
+  it { should have_many(:comments).dependent(:destroy) }
 
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
