@@ -27,7 +27,7 @@ feature 'Add files to answer', %q{
     click_on 'add file'
     attach_file 'File', "#{Rails.root}/spec/rails_helper.rb", match: :first
     click_on 'Answer'
-    
+    sleep(1)
     expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/1/rails_helper.rb'
     expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/2/spec_helper.rb'
   end

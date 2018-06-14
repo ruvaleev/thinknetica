@@ -5,12 +5,14 @@ class AnswersController < ApplicationController
   before_action :load_answer, except: [ :create ]
   after_action :publish_answer, only: [ :create ]
 
+  respond_to :js, only: [ :create, :destroy ]
+
+
   def create 
-    @answer = @question.answers.new(answer_params)
+    @answer = @question.answers.create(answer_params)
     @answer.user = current_user
-    flash[:notice] = 'You have to log in to create Answer' unless current_user.present?
     if @answer.save
-      flash[:notice] = 'Your answer successfully created.'
+      respond_with @answer
     else
       render 'error'
     end
@@ -26,12 +28,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if current_user.author_of?(@answer)
-      @answer.destroy
-      @notice = 'Your answer successfully deleted.'
-    else
-      @notice = 'You can delete only your own answer!'
-    end
+    respond_with @answer.destroy if current_user.author_of?(@answer)
   end
   
 private
