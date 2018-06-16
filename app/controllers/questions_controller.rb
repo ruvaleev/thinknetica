@@ -2,39 +2,32 @@ class QuestionsController < ApplicationController
   include Voted
   before_action :authenticate_user!, except: [ :show, :index ]
   before_action :load_question, only: [ :show, :edit, :update, :destroy, :vote ]
+  before_action :build_answer, only: :show
 
   after_action :publish_question, only: [ :create ]
   
   def index
-    @questions = Question.all
     @vote = Vote.new
     gon.current_user = current_user || false
+    respond_with(@questions = Question.all)
   end
 
   def show
-    @answer = @question.answers.new
     @best = @question.answers.best.first
-    @answer.attachments.build
     gon.current_user = current_user || false
     gon.question = @question
+    respond_with @question
   end
 
   def new
-  	@question = Question.new
-    @question.attachments.build
+    respond_with(@question = Question.new)
   end
 
   def edit
   end
 
   def create
-    @question = current_user.questions.new(question_params)
-    if @question.save
-      flash[:notice] = 'Your question successfully created.'
-      redirect_to @question
-    else
-      render :new
-    end
+    respond_with(@question = current_user.questions.create(question_params))
   end
 
   def update
@@ -42,13 +35,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if current_user.author_of?(@question)
-    	@question.destroy
-      flash[:notice] = 'Your question successfully deleted.'
-    else
-      flash[:notice] = 'You can destroy only your own questions!'
-    end
-    redirect_to questions_path
+    respond_with(@question.destroy, location: questions_path) if current_user.author_of?(@question)
   end
 
   private
@@ -73,4 +60,9 @@ class QuestionsController < ApplicationController
       'questions', @question.to_json
     )
   end
+
+  def build_answer
+    @answer = @question.answers.new
+  end
+
 end

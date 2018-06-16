@@ -30,9 +30,6 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to render_template :show
     end 
 
-    it 'builds new attachment for answer' do
-      expect(assigns(:answer).attachments.first).to be_a_new(Attachment)
-    end
   end
 
   describe 'GET #new' do
@@ -41,10 +38,6 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'assigns a new question to @question' do
       expect(assigns(:question)).to be_a_new(Question)
-    end
-
-    it 'builds new attachment for question' do
-      expect(assigns(:question).attachments.first).to be_a_new(Attachment)
     end
 
     it 'renders new view' do
@@ -132,23 +125,23 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'DELETE #destroy' do
     let(:user) { create(:user) }
     let(:own_question) { create(:question, user: user) }
-    sign_in_user
+
+    before(:each, deletes_own_question: :true) do
+      sign_in(user)
+      own_question
+    end
 
     it "deletes other user's question" do
       question
       expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(0)
     end
 
-    it 'deletes own question' do
-      sign_in(user)
-      own_question
+    it 'deletes own question', deletes_own_question: :true do
       expect { delete :destroy, params: { id: own_question } }.to change(Question, :count).by(-1)
     end
 
-
-    it 'redirect to index view' do
-      delete :destroy, params: { id: question }
-      expect(response).to redirect_to questions_path
+    it 'redirect to index view', deletes_own_question: :true do
+      expect(delete :destroy, params: { id: own_question }).to redirect_to questions_path
     end
   end
 
