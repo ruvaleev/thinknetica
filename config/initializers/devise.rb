@@ -259,6 +259,8 @@ Devise.setup do |config|
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :vkontakte, Rails.application.secrets.vkontakte_app_id, Rails.application.secrets.vkontakte_app_sekret
   config.omniauth :facebook, Rails.application.secrets.facebook_app_id, Rails.application.secrets.facebook_app_sekret, scope: [:email]
+  config.omniauth :twitter, Rails.application.secrets.twitter_app_id, Rails.application.secrets.twitter_app_sekret, callback_url: 'http://localhost:3000/users/auth/twitter/callback'
+  config.secret_key = '952b9091b968f63cc605e0755f42de69451996818833f4ffaec1d45765cd75229e55b77baf74eeda645925ccce796829e301e8db088c270370704f7a09874e35'
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
