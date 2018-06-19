@@ -2,7 +2,8 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [ :vkontakte, :facebook, :twitter ]
+         :recoverable, :rememberable, :trackable, :validatable, #:confirmable,
+         :omniauthable, omniauth_providers: [ :vkontakte, :facebook, :twitter ]
   has_many :answers, dependent: :destroy
   has_many :questions, dependent: :destroy
   has_many :comments, dependent: :destroy
@@ -32,7 +33,7 @@ class User < ApplicationRecord
       end
     else
       password = Devise.friendly_token[0, 20]
-      user = User.create!(email: 'test_mail_for_twitter@mail.ru', password: password, password_confirmation: password)
+      user = User.create!(email: "temporary_email_#{User.last.id.to_s}@mail.ru", password: password, password_confirmation: password)
       user.create_authorization(auth)
     end
       user
