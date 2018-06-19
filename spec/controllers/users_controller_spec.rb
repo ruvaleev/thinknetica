@@ -3,9 +3,6 @@ require 'rails_helper'
 RSpec.describe UsersController, type: :controller do
 
   let(:user) { create(:user) }
-  let(:question) { create(:question, user: user) }
-  let(:answer) { create(:answer, question: question, user: user) }
-  let(:another_answer) { create(:another_answer, question: question) }
 
   describe "GET #set_email" do
     it 'renders the set email template' do
