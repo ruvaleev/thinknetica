@@ -33,7 +33,7 @@ class User < ApplicationRecord
       end
     else
       password = Devise.friendly_token[0, 20]
-      user = User.create!(email: "temporary_email_#{User.last.id.to_s}@mail.ru", password: password, password_confirmation: password)
+      user = User.create!(email: "temporary_email_#{User.last.id.to_s unless User.all.empty?}@mail.ru", password: password, password_confirmation: password)
       user.create_authorization(auth)
     end
       user
