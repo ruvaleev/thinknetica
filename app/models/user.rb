@@ -21,18 +21,17 @@ class User < ApplicationRecord
   def self.find_for_oauth(auth)
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
     return authorization.user if authorization
+    password = Devise.friendly_token[0, 20]
     if auth.info[:email]
       email = auth.info[:email] 
       user = User.where(email: email).first
       if user
         user.create_authorization(auth)
       else
-        password = Devise.friendly_token[0, 20]
         user = User.create!(email: email, password: password, password_confirmation: password)
         user.create_authorization(auth)
       end
     else
-      password = Devise.friendly_token[0, 20]
       user = User.create!(email: "temporary_email_#{User.last.id.to_s unless User.all.empty?}@mail.ru", password: password, password_confirmation: password)
       user.create_authorization(auth)
     end
