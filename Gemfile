@@ -30,6 +30,11 @@ gem 'redis', '~> 4.0'
 gem 'gon'
 gem 'skim'
 gem 'responders', '~> 2.0'
+gem 'omniauth'
+gem 'omniauth-vkontakte'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -56,6 +61,7 @@ group :development, :test do
   gem 'capybara-webkit'
   gem 'selenium-webdriver'
   gem 'chromedriver-helper'
+  gem "letter_opener"
 end
 
 group :development do
