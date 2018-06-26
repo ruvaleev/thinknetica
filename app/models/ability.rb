@@ -25,5 +25,6 @@ class Ability
     can :create, [Question, Answer, Comment]
     can :update, [Question, Answer, Comment], user: user
     can :destroy, [Question, Answer, Comment], user: user
+    can :create_vote, @object, :user != user
   end
 end

@@ -36,6 +36,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
+    authorize! :update, Question
   	@question.update(question_params)
   end
 
