@@ -1,4 +1,4 @@
-p= link_to 'Ask question', new_question_path
+p= link_to 'Ask question', new_question_path if can?(:create, Question)
 h1 Questions list
 .errors
 .questions

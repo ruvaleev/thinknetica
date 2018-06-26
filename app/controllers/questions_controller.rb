@@ -5,8 +5,10 @@ class QuestionsController < ApplicationController
   before_action :build_answer, only: :show
 
   after_action :publish_question, only: [ :create ]
+
   
   def index
+    authorize! :read, Question
     @vote = Vote.new
     gon.current_user = current_user || false
     respond_with(@questions = Question.all)
@@ -16,10 +18,12 @@ class QuestionsController < ApplicationController
     @best = @question.answers.best.first
     gon.current_user = current_user || false
     gon.question = @question
+    authorize! :read, @question
     respond_with @question
   end
 
   def new
+    authorize! :create, Question
     respond_with(@question = Question.new)
   end
 
@@ -27,6 +31,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
+    authorize! :create, Question
     respond_with(@question = current_user.questions.create(question_params))
   end
 
@@ -35,6 +40,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
+    authorize! :destroy, @question
     respond_with(@question.destroy, location: questions_path) if current_user.author_of?(@question)
   end
 
