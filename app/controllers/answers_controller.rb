@@ -8,7 +8,7 @@ class AnswersController < ApplicationController
   respond_to :js, only: [ :create, :destroy ]
 
   authorize_resource
-  
+
   def create 
     @answer = @question.answers.create(answer_params)
     @answer.user = current_user
@@ -20,16 +20,16 @@ class AnswersController < ApplicationController
   end
 
   def award
-    @answer.make_best if current_user.author_of?(@question)
+    @answer.make_best
   end
 
   def update
     @question = @answer.question
-    @answer.update(answer_params) if current_user.author_of?(@answer)
+    @answer.update(answer_params)
   end
 
   def destroy
-    respond_with @answer.destroy if current_user.author_of?(@answer)
+    respond_with @answer.destroy
   end
   
 private

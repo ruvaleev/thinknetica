@@ -25,10 +25,13 @@ class Ability
     can :create, [Question, Answer, Comment]
     can :update, [Question, Answer, Comment], user: user
     can :destroy, [Question, Answer, Comment], user: user
+    can :destroy, Attachment do |attachment| 
+      attachment.attachable.user == user 
+    end
     can :create_vote, [Question, Answer, Comment]
     cannot :create_vote, [Question, Answer, Comment], user: user
-    can :award, Answer do |answer|
-      answer.question.user == user
+    can :award, Answer do |answer| 
+      answer.question.user == user 
     end
   end
 end
