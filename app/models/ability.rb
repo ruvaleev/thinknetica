@@ -27,5 +27,8 @@ class Ability
     can :destroy, [Question, Answer, Comment], user: user
     can :create_vote, [Question, Answer, Comment]
     cannot :create_vote, [Question, Answer, Comment], user: user
+    can :award, Answer do |answer|
+      answer.question.user == user
+    end
   end
 end

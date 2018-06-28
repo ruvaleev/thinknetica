@@ -7,7 +7,8 @@ class AnswersController < ApplicationController
 
   respond_to :js, only: [ :create, :destroy ]
 
-
+  authorize_resource
+  
   def create 
     @answer = @question.answers.create(answer_params)
     @answer.user = current_user
