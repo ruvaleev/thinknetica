@@ -100,7 +100,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     it "it retrieves success response after voting for answer" do
-      patch :create_vote, params: { id: answer, value: 1, format: :json }
+      patch :create_vote, params: { id: another_answer, value: 1, format: :json }
       expect(response).to be_success
     end
 
