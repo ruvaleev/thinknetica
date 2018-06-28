@@ -4,7 +4,7 @@ table
   td.point
     = resource.rating
   td
-    - if current_user.present? && !current_user.author_of?(resource)
+    - if current_user.present? && can?(:create_vote, resource)
       table
         tr class=(current_user.voted?(resource, 1) ? 'plus-minus' : 'plus-minus disactive')
           td

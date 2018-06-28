@@ -3,6 +3,8 @@ class CommentsController < ApplicationController
   before_action :load_answer
   after_action :publish_comment
 
+  authorize_resource
+  
   def create
     @comment = @answer.comments.create(user: current_user, body: params[:comment][:body])
     gon.answer = @answer

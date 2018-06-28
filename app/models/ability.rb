@@ -28,8 +28,8 @@ class Ability
     can :destroy, Attachment do |attachment| 
       attachment.attachable.user == user 
     end
-    can :create_vote, [Question, Answer, Comment]
-    cannot :create_vote, [Question, Answer, Comment], user: user
+    can :create_vote, [Question, Answer]
+    cannot :create_vote, [Question, Answer], user: user
     can :award, Answer do |answer| 
       answer.question.user == user 
     end

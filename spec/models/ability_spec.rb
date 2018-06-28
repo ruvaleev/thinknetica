@@ -21,6 +21,10 @@ RSpec.describe Ability, type: :model do
   describe 'for user' do
     let (:user) { create :user }
     let (:another_user) { create :user }
+    let (:own_question) {create :question, user: user }
+    let (:not_own_question) {create :question }
+    let (:own_answer) { create :answer, user: user }
+    let (:not_own_answer) { create :answer }
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
@@ -36,5 +40,26 @@ RSpec.describe Ability, type: :model do
 
     it { should be_able_to :update, create(:comment, user: user), user: user }
     it { should_not be_able_to :update, create(:comment, user: another_user), user: user }
+
+    it { should be_able_to :destroy, create(:question, user: user), user: user }
+    it { should_not be_able_to :destroy, create(:question, user: another_user), user: user }
+
+    it { should be_able_to :destroy, own_answer, user: user }
+    it { should_not be_able_to :destroy, not_own_answer, user: user }
+
+    it { should be_able_to :destroy, create(:comment, user: user), user: user }
+    it { should_not be_able_to :destroy, create(:comment, user: another_user), user: user }
+
+    it { should be_able_to :destroy, create(:attachment, attachable: own_answer), user: user }
+    it { should_not be_able_to :destroy, create(:attachment, attachable: not_own_answer), user: user }
+
+    it { should be_able_to :create_vote, create(:question, user: another_user), user: user }
+    it { should_not be_able_to :create_vote, create(:question, user: user), user: user }
+    
+    it { should be_able_to :create_vote, not_own_answer, user: user }
+    it { should_not be_able_to :create_vote, own_answer, user: user }
+
+    it { should be_able_to :award, create(:answer, question: own_question), user: user }
+    it { should_not be_able_to :award, create(:answer, question: not_own_question), user: user }
   end
 end
