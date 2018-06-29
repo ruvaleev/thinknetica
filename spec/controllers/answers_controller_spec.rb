@@ -44,14 +44,13 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    sign_in_user
+    before { sign_in(user) }
     it "deletes other user's answer" do
       another_answer
       expect { delete :destroy, params: { question_id: question, id: another_answer }, format: :js }.to_not change(Answer, :count)
     end
 
     it 'deletes own answer' do
-      sign_in(user)
       answer
       expect { delete :destroy, params: { question_id: question, id: answer }, format: :js }.to change(Answer, :count).by(-1)
     end
@@ -64,16 +63,15 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PUT #update' do
-    sign_in_user
-    
     context 'valid attributes' do
+      before { sign_in(user) }
+      
       it 'assigns the requested answer to @answer' do 
         patch :update, params: { id: answer, question_id: question, answer: attributes_for(:answer), format: :js }
         expect(assigns(:answer)).to eq answer
       end     
 
       it 'changes answer attributes' do
-        sign_in(user)
         put :update, params: { id: answer, question_id: question, answer: { body: 'new body' } }, format: :js
         answer.reload
         expect(answer.body).to eq 'new body'
@@ -100,7 +98,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     it "it retrieves success response after voting for answer" do
-      patch :create_vote, params: { id: answer, value: 1, format: :json }
+      patch :create_vote, params: { id: another_answer, value: 1, format: :json }
       expect(response).to be_success
     end
 

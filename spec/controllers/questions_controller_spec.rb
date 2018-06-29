@@ -46,8 +46,10 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
-    sign_in_user
-    before { get :edit, params: { id: question } }
+    before do
+      sign_in(user)
+      get :edit, params: { id: question } 
+    end
 
     it 'assigns the requested question to @question' do 
       expect(assigns(:question)).to eq question
@@ -87,8 +89,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PUT #update' do
-    sign_in_user
     context 'valid attributes' do
+      before { sign_in(user) }
       it 'assigns the requested question to @question' do 
         patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
         expect(assigns(:question)).to eq question
@@ -108,7 +110,10 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'invalid attributes' do
-      before { patch :update, params: { id: question, question: { title: 'new title', body: nil} }, format: :js }
+      before do
+        sign_in(user)
+        patch :update, params: { id: question, question: { title: 'new title', body: nil} }, format: :js 
+      end
       
       it 'does not change question attributes' do
         question.reload

@@ -5,7 +5,9 @@ class QuestionsController < ApplicationController
   before_action :build_answer, only: :show
 
   after_action :publish_question, only: [ :create ]
-  
+
+  authorize_resource
+
   def index
     @vote = Vote.new
     gon.current_user = current_user || false
@@ -35,7 +37,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    respond_with(@question.destroy, location: questions_path) if current_user.author_of?(@question)
+    respond_with(@question.destroy, location: questions_path)
   end
 
   private
